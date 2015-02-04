@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
 
-
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
 

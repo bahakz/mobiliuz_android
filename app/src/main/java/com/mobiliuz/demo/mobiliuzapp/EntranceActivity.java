@@ -1,17 +1,19 @@
 package com.mobiliuz.demo.mobiliuzapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 
+
 public class EntranceActivity extends ActionBarActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -35,10 +37,34 @@ public class EntranceActivity extends ActionBarActivity {
 
     }
 
+    private class loginTask extends AsyncTask<String, Void, Void> {
+
+        protected Void doInBackground(String... strings) {
+
+//            RestClient client = new RestClient("http://private-anon-d69e0f196-mobiliuz.apiary-mock.com");  //Write your url here
+            RestClient client = new RestClient("http://demo.mobiliuz.com/api/v1/auth/login");  //Write your url here
+
+            client.addParam("username", "vasya.pupkin@yandex.ru"); //Here I am adding key-value parameters
+            client.addParam("password", "1234567");
+
+            client.addHeader("content-type", "application/json"); // Here I am specifying that the key-value pairs are sent in the JSON format
+
+            try {
+                String response = client.executePost(); // In case your server sends any response back, it will be saved in this response string.
+                Log.d(TAG, "responsde " + response.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
     private void onLoginClick() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+
+            new loginTask().execute();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
     }
 
 
