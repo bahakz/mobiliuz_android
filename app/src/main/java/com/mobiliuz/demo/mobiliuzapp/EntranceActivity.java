@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.JSONObject;
 
 
 public class EntranceActivity extends ActionBarActivity {
@@ -18,6 +20,10 @@ public class EntranceActivity extends ActionBarActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
+
+    String api_token;
+    String email;
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,27 +50,44 @@ public class EntranceActivity extends ActionBarActivity {
 //            RestClient client = new RestClient("http://private-anon-d69e0f196-mobiliuz.apiary-mock.com");  //Write your url here
             RestClient client = new RestClient("http://demo.mobiliuz.com/api/v1/auth/login");  //Write your url here
 
-            client.addParam("username", "vasya.pupkin@yandex.ru"); //Here I am adding key-value parameters
-            client.addParam("password", "1234567");
+            client.addParam("username", strings[0]); //Here I am adding key-value parameters
+            client.addParam("password", strings[1]);
 
             client.addHeader("content-type", "application/json"); // Here I am specifying that the key-value pairs are sent in the JSON format
 
+            if((strings[0].equals("demo@mobiliuz.com")) && (strings[1].equals("demo"))){
+                Intent intent = new Intent(EntranceActivity.this, MainActivity.class);
+                startActivity(intent);
+            }else{
+                EntranceActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(EntranceActivity.this, "Incorrect login or password", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
             try {
                 String response = client.executePost(); // In case your server sends any response back, it will be saved in this response string.
-                Log.d(TAG, "responsde " + response.toString());
+                Log.d(TAG, "first response " + response.toString());
+
+                JSONObject userObject = new JSONObject(response);
+                api_token = userObject.getString("api_token");
+                Log.d(TAG, "api token " + api_token);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            
             return null;
         }
     }
 
     private void onLoginClick() {
 
-            new loginTask().execute();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            email = emailEditText.getText().toString();
+            password = passwordEditText.getText().toString();
+
+            new loginTask().execute(email, password);
+
     }
 
 
