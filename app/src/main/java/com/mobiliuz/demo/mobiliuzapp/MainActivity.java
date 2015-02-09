@@ -25,6 +25,7 @@ public class MainActivity extends FragmentActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), getFragments());
         viewPager.setAdapter(viewPagerAdapter);
+
     }
 
     private ArrayList<Fragment> getFragments() {

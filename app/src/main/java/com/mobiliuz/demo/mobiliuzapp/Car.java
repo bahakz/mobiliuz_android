@@ -8,6 +8,12 @@ public class Car {
     private String id;
     private String model;
     private String fuelConsumption;
+    private boolean is_moving;
+    private boolean is_online;
+    private double power_voltage;
+    private double latitude;
+    private double longitude;
+
 
     public Car(){
 
@@ -37,4 +43,6 @@ public class Car {
     public void setFuelConsumption(String fuelConsumption) {
         this.fuelConsumption = fuelConsumption;
     }
+
+
 }
