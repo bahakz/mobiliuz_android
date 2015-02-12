@@ -8,8 +8,6 @@ public class Car {
     private String id;
     private String model;
     private String fuelConsumption;
-    private boolean is_moving;
-    private boolean is_online;
     private double power_voltage;
     private double latitude;
     private double longitude;
@@ -44,5 +42,11 @@ public class Car {
         this.fuelConsumption = fuelConsumption;
     }
 
+    public double getPower_voltage() {
+        return power_voltage;
+    }
 
+    public void setPower_voltage(double power_voltage) {
+        this.power_voltage = power_voltage;
+    }
 }

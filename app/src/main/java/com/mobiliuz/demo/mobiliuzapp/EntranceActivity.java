@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class EntranceActivity extends ActionBarActivity {
@@ -29,6 +32,8 @@ public class EntranceActivity extends ActionBarActivity {
     String api_token;
     String email;
     String password;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +86,20 @@ public class EntranceActivity extends ActionBarActivity {
 
                 JSONObject userObject = new JSONObject(response);
 
-                api_token = userObject.getString("api_token");
-                Log.d(TAG, "api token " + api_token);
-
-                editor.putString("api_token", api_token);
-
                 if (userObject.getString("success").equals("true")) {
+
+                    api_token = userObject.getString("api_token");
+                    Log.d(TAG, "api token " + api_token);
+
+                    editor.putString("api_token", api_token);
+
                     Intent intent = new Intent(EntranceActivity.this, MainActivity.class);
                     startActivity(intent);
+
                     finish();
-                } else {
+                } else{
+                    Log.d(TAG, "incorrect login");
+
                     EntranceActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(EntranceActivity.this, "Incorrect login or password", Toast.LENGTH_SHORT).show();

@@ -1,40 +1,63 @@
 package com.mobiliuz.demo.mobiliuzapp;
 
-import android.support.v4.app.Fragment;
+
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.View;
+import android.support.v4.app.Fragment;
 
-import com.mobiliuz.demo.mobiliuzapp.adapters.ViewPagerAdapter;
-import com.mobiliuz.demo.mobiliuzapp.fragments.ContactFragment;
-import com.mobiliuz.demo.mobiliuzapp.fragments.LocationFragment;
-import com.mobiliuz.demo.mobiliuzapp.fragments.SettingsFragment;
-import com.mobiliuz.demo.mobiliuzapp.fragments.StatisticsFragment;
-
-import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity {
 
-    ViewPager viewPager;
-    ViewPagerAdapter viewPagerAdapter;
+    View statisticsLayout;
+    View notificationsLayout;
+
+    View statisticsFragment;
+    View notificationsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), getFragments());
-        viewPager.setAdapter(viewPagerAdapter);
 
+        statisticsLayout = findViewById(R.id.statisticsLayout);
+        notificationsLayout = findViewById(R.id.notificationsLayout);
+
+        statisticsFragment = findViewById(R.id.statisticsFragment);
+        notificationsFragment = findViewById(R.id.notificationsFragment);
+
+
+        statisticsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (statisticsFragment.getVisibility() == View.VISIBLE) {
+                    statisticsFragment.setVisibility(View.GONE);
+                } else {
+                    statisticsFragment.setVisibility(View.VISIBLE);
+                }
+                notificationsFragment.setVisibility(View.GONE);
+            }
+        });
+
+        notificationsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statisticsFragment.setVisibility(View.GONE);
+                if (notificationsFragment.getVisibility() == View.VISIBLE) {
+                    notificationsFragment.setVisibility(View.GONE);
+                } else {
+                    notificationsFragment.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+        setupDefault(); 
     }
 
-    private ArrayList<Fragment> getFragments() {
-        ArrayList<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new LocationFragment());
-        fragments.add(new StatisticsFragment());
-        fragments.add(new ContactFragment());
-        fragments.add(new SettingsFragment());
-        return fragments;
+    private void setupDefault() {
+        statisticsFragment.setVisibility(View.GONE);
+        notificationsFragment.setVisibility(View.GONE);
     }
 
 }

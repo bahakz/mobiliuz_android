@@ -3,6 +3,7 @@ package com.mobiliuz.demo.mobiliuzapp.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,21 +16,29 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mobiliuz.demo.mobiliuzapp.CarChangedListener;
+import com.mobiliuz.demo.mobiliuzapp.DataHolder;
+import com.mobiliuz.demo.mobiliuzapp.MainActivity;
 import com.mobiliuz.demo.mobiliuzapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LocationFragment extends Fragment{
+public class LocationFragment extends Fragment implements CarChangedListener {
 
     private static View view;
     private static GoogleMap map;
     private SupportMapFragment fragment;
     SharedPreferences settings;
     public static final String PREFS_NAME = "MyPrefsFile";
+    MarkerOptions marker;
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+
 
     public LocationFragment() {
         // Required empty public constructor
@@ -39,6 +48,7 @@ public class LocationFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        DataHolder.getDataHolder().addCarListener(this);
 
         settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
@@ -63,8 +73,12 @@ public class LocationFragment extends Fragment{
 
         if (map == null) {
             map = fragment.getMap();
+
             LatLng latLng = new LatLng(43.236365, 76.910514);
-            map.addMarker(new MarkerOptions().position(latLng));
+            marker = new MarkerOptions().position(latLng);
+
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.car_icon));
+            map.addMarker(marker);
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(latLng).zoom(13).build();
@@ -75,6 +89,12 @@ public class LocationFragment extends Fragment{
         }
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        DataHolder.getDataHolder().removeCarListener(this);
     }
 
     @Override
@@ -98,5 +118,12 @@ public class LocationFragment extends Fragment{
 //            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 //            map.animateCamera(CameraUpdateFactory.zoomTo(15));
 //        }
+    }
+
+    @Override
+    public void onCarDownloaded() {
+
+        Log.d(TAG, "i am in onCarDownloaded");
+
     }
 }

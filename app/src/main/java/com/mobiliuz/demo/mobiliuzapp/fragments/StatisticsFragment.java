@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mobiliuz.demo.mobiliuzapp.Car;
+import com.mobiliuz.demo.mobiliuzapp.DataHolder;
 import com.mobiliuz.demo.mobiliuzapp.MainActivity;
 import com.mobiliuz.demo.mobiliuzapp.R;
 import com.mobiliuz.demo.mobiliuzapp.RestClient;
@@ -28,7 +29,6 @@ public class StatisticsFragment extends Fragment {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    ArrayList<Car> cars;
 
     public StatisticsFragment() {
 
@@ -41,7 +41,6 @@ public class StatisticsFragment extends Fragment {
                              Bundle savedInstanceState) {
         new userCarsCollection().execute();
 
-        cars = new ArrayList<Car>();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_statistics, container, false);
     }
@@ -62,9 +61,9 @@ public class StatisticsFragment extends Fragment {
                 String response = client.executeGet(); // In case your server sends any response back, it will be saved in this response string.
                 Log.d(TAG, "second response " + response.toString());
 
-                JSONObject jobject = new JSONObject(response);
+                JSONObject jsonObject = new JSONObject(response);
 
-                JSONArray jarray = jobject.getJSONArray("objects");
+                JSONArray jarray = jsonObject.getJSONArray("objects");
 
                 for(int i = 0; i < jarray.length(); i++){
 
@@ -76,13 +75,14 @@ public class StatisticsFragment extends Fragment {
                     singleCar.setModel(object.getString("model"));
                     singleCar.setFuelConsumption(object.getString("fuel_consumption"));
 
-                    cars.add(singleCar);
+                    DataHolder.getDataHolder().addCar(singleCar);
 
                 }
-                Log.d(TAG, "id " + cars.get(0).getId());
-                Log.d(TAG, "model " + cars.get(0).getModel());
-                Log.d(TAG, "fuel " + cars.get(0).getFuelConsumption());
-                Log.d(TAG, "cars size " + cars.size());
+
+                Log.d(TAG, "id " + DataHolder.getDataHolder().getCars().get(0).getId());
+                Log.d(TAG, "model " + DataHolder.getDataHolder().getCars().get(0).getModel());
+                Log.d(TAG, "fuel " + DataHolder.getDataHolder().getCars().get(0).getFuelConsumption());
+                Log.d(TAG, "cars size " + DataHolder.getDataHolder().getCars().size());
                 Log.d(TAG, "json array length " + jarray.length());
                 Log.d(TAG, "json array " + jarray.toString());
 
