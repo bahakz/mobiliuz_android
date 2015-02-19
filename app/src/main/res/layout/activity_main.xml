@@ -12,12 +12,38 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <fragment android:name="com.mobiliuz.demo.mobiliuzapp.fragments.LocationFragment"
-            android:id="@+id/map"
-            android:layout_width="fill_parent"
+        <RelativeLayout
             android:layout_height="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="1.0"
-            />
+            >
+
+            <fragment android:name="com.mobiliuz.demo.mobiliuzapp.fragments.LocationFragment"
+                android:id="@+id/map"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentTop="true"
+                />
+
+            <LinearLayout
+                android:id="@+id/locationLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@android:color/transparent"
+                android:layout_alignParentTop="true"
+                >
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Find my car" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/statisticsLayout"

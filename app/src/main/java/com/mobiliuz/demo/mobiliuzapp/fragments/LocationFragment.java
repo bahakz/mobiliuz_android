@@ -20,10 +20,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mobiliuz.demo.mobiliuzapp.Car;
 import com.mobiliuz.demo.mobiliuzapp.CarChangedListener;
 import com.mobiliuz.demo.mobiliuzapp.DataHolder;
 import com.mobiliuz.demo.mobiliuzapp.MainActivity;
 import com.mobiliuz.demo.mobiliuzapp.R;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +37,6 @@ public class LocationFragment extends Fragment implements CarChangedListener {
     private static View view;
     private static GoogleMap map;
     private SupportMapFragment fragment;
-    SharedPreferences settings;
-    public static final String PREFS_NAME = "MyPrefsFile";
     MarkerOptions marker;
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -49,8 +51,6 @@ public class LocationFragment extends Fragment implements CarChangedListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DataHolder.getDataHolder().addCarListener(this);
-
-        settings = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         // Inflate the layout for this fragment
         if (view != null) {
@@ -73,16 +73,21 @@ public class LocationFragment extends Fragment implements CarChangedListener {
 
         if (map == null) {
             map = fragment.getMap();
+            for(int i = 0; i < DataHolder.getDataHolder().getCars().size(); i++) {
+                double latitude = DataHolder.getDataHolder().getCars().get(i).getLatitude();
+                double longitude = DataHolder.getDataHolder().getCars().get(i).getLongitude();
+                LatLng latLng = new LatLng(latitude, longitude);
+                marker = new MarkerOptions().position(latLng);
 
-            LatLng latLng = new LatLng(43.236365, 76.910514);
-            marker = new MarkerOptions().position(latLng);
+                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title("Id: " + DataHolder.getDataHolder().getCars().get(i).getId()).snippet("Power voltage: " + DataHolder.getDataHolder());
+                map.addMarker(marker);
 
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.car_icon));
-            map.addMarker(marker);
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(latLng).zoom(13).build();
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(latLng).zoom(13).build();
-            map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+
 
 //          map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 //          map.animateCamera(CameraUpdateFactory.zoomTo(15));
@@ -123,7 +128,28 @@ public class LocationFragment extends Fragment implements CarChangedListener {
     @Override
     public void onCarDownloaded() {
 
-        Log.d(TAG, "i am in onCarDownloaded");
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i < DataHolder.getDataHolder().getCars().size(); i++) {
+
+                    double latitude = DataHolder.getDataHolder().getCars().get(i).getLatitude();
+                    double longitude = DataHolder.getDataHolder().getCars().get(i).getLongitude();
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    marker = new MarkerOptions().position(latLng);
+
+                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title("Id: " + DataHolder.getDataHolder().getCars().get(i).getId()).snippet("Power voltage: " + DataHolder.getDataHolder().getCars().get(i).getPowerVoltage());
+                    map.addMarker(marker);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(latLng).zoom(13).build();
+                    map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+                }
+            }
+        });
+
 
     }
 }

@@ -5,10 +5,10 @@ package com.mobiliuz.demo.mobiliuzapp;
  */
 public class Car {
 
-    private String id;
+    private int id;
     private String model;
     private String fuelConsumption;
-    private double power_voltage;
+    private double powerVoltage;
     private double latitude;
     private double longitude;
 
@@ -18,11 +18,11 @@ public class Car {
 
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -42,11 +42,27 @@ public class Car {
         this.fuelConsumption = fuelConsumption;
     }
 
-    public double getPower_voltage() {
-        return power_voltage;
+    public double getPowerVoltage() {
+        return powerVoltage;
     }
 
-    public void setPower_voltage(double power_voltage) {
-        this.power_voltage = power_voltage;
+    public void setPowerVoltage(double powerVoltage) {
+        this.powerVoltage = powerVoltage;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

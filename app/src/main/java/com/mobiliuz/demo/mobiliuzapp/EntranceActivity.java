@@ -98,8 +98,6 @@ public class EntranceActivity extends ActionBarActivity {
 
                     finish();
                 } else{
-                    Log.d(TAG, "incorrect login");
-
                     EntranceActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(EntranceActivity.this, "Incorrect login or password", Toast.LENGTH_SHORT).show();
@@ -119,6 +117,8 @@ public class EntranceActivity extends ActionBarActivity {
 
             email = emailEditText.getText().toString();
             password = passwordEditText.getText().toString();
+
+            email = email.trim();
 
             editor.putString("username", email);
             editor.apply();
