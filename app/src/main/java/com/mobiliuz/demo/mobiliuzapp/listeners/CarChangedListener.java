@@ -1,4 +1,4 @@
-package com.mobiliuz.demo.mobiliuzapp;
+package com.mobiliuz.demo.mobiliuzapp.listeners;
 
 /**
  * Created by darhan on 2/11/15.

@@ -4,7 +4,7 @@
     <string name="app_name">Mobiliuz App</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_logout">Log out</string>
+    <string name="title_activity_main">Mobiliuz</string>
 
 </resources>

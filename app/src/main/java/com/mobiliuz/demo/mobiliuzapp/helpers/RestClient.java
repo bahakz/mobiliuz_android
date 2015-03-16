@@ -1,4 +1,4 @@
-package com.mobiliuz.demo.mobiliuzapp;
+package com.mobiliuz.demo.mobiliuzapp.helpers;
 
 
 import org.apache.http.HttpEntity;

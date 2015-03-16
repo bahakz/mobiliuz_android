@@ -68,7 +68,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:25:9
 	android:theme
 		ADDED from AndroidManifest.xml:27:9
-activity#com.mobiliuz.demo.mobiliuzapp.EntranceActivity
+activity#com.mobiliuz.demo.mobiliuzapp.activities.EntranceActivity
 ADDED from AndroidManifest.xml:28:9
 	android:label
 		ADDED from AndroidManifest.xml:30:13
@@ -84,7 +84,7 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:34:17
 	android:name
 		ADDED from AndroidManifest.xml:34:27
-activity#com.mobiliuz.demo.mobiliuzapp.MainActivity
+activity#com.mobiliuz.demo.mobiliuzapp.activities.MainActivity
 ADDED from AndroidManifest.xml:37:9
 	android:label
 		ADDED from AndroidManifest.xml:39:13

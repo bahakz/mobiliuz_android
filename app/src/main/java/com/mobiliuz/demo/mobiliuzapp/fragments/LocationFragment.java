@@ -1,13 +1,9 @@
 package com.mobiliuz.demo.mobiliuzapp.fragments;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,24 +16,20 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.mobiliuz.demo.mobiliuzapp.Car;
-import com.mobiliuz.demo.mobiliuzapp.CarChangedListener;
-import com.mobiliuz.demo.mobiliuzapp.DataHolder;
-import com.mobiliuz.demo.mobiliuzapp.MainActivity;
+import com.mobiliuz.demo.mobiliuzapp.listeners.CarChangedListener;
+import com.mobiliuz.demo.mobiliuzapp.data.DataHolder;
+import com.mobiliuz.demo.mobiliuzapp.activities.MainActivity;
 import com.mobiliuz.demo.mobiliuzapp.R;
+import com.mobiliuz.demo.mobiliuzapp.model.Car;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LocationFragment extends Fragment implements CarChangedListener {
 
     private static View view;
     private static GoogleMap map;
     private SupportMapFragment fragment;
     MarkerOptions marker;
+    private DataHolder dataHolder;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -50,7 +42,9 @@ public class LocationFragment extends Fragment implements CarChangedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        DataHolder.getDataHolder().addCarListener(this);
+
+        dataHolder = DataHolder.getDataHolder(getActivity());
+        dataHolder.addCarListener(this);
 
         // Inflate the layout for this fragment
         if (view != null) {
@@ -73,20 +67,7 @@ public class LocationFragment extends Fragment implements CarChangedListener {
 
         if (map == null) {
             map = fragment.getMap();
-            for(int i = 0; i < DataHolder.getDataHolder().getCars().size(); i++) {
-                double latitude = DataHolder.getDataHolder().getCars().get(i).getLatitude();
-                double longitude = DataHolder.getDataHolder().getCars().get(i).getLongitude();
-                LatLng latLng = new LatLng(latitude, longitude);
-                marker = new MarkerOptions().position(latLng);
-
-                marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title("Id: " + DataHolder.getDataHolder().getCars().get(i).getId()).snippet("Power voltage: " + DataHolder.getDataHolder());
-                map.addMarker(marker);
-
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(latLng).zoom(13).build();
-                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-            }
+            setupCars();
 
 
 //          map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -96,10 +77,29 @@ public class LocationFragment extends Fragment implements CarChangedListener {
         return view;
     }
 
+    private void setupCars() {
+        for(int i = 0; i < dataHolder.getCars().size(); i++) {
+            double latitude = dataHolder.getCars().get(i).getLastStatus().getLatitude();
+            double longitude = dataHolder.getCars().get(i).getLastStatus().getLongtitude();
+            LatLng latLng = new LatLng(latitude, longitude);
+            marker = new MarkerOptions().position(latLng);
+
+            Car car = dataHolder.getCars().get(i);
+
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title(car.getMake() + " " + car.getModel()).snippet("Power voltage: " + dataHolder);
+            map.addMarker(marker);
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(latLng).zoom(13).build();
+            map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        DataHolder.getDataHolder().removeCarListener(this);
+        dataHolder.removeCarListener(this);
     }
 
     @Override
@@ -131,22 +131,7 @@ public class LocationFragment extends Fragment implements CarChangedListener {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                for(int i = 0; i < DataHolder.getDataHolder().getCars().size(); i++) {
-
-                    double latitude = DataHolder.getDataHolder().getCars().get(i).getLatitude();
-                    double longitude = DataHolder.getDataHolder().getCars().get(i).getLongitude();
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    marker = new MarkerOptions().position(latLng);
-
-                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title("Id: " + DataHolder.getDataHolder().getCars().get(i).getId()).snippet("Power voltage: " + DataHolder.getDataHolder().getCars().get(i).getPowerVoltage());
-                    map.addMarker(marker);
-
-                    CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(latLng).zoom(13).build();
-                    map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-
-                }
+                setupCars();
             }
         });
 
