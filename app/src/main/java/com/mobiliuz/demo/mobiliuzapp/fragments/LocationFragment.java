@@ -4,6 +4,7 @@ package com.mobiliuz.demo.mobiliuzapp.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,7 @@ public class LocationFragment extends Fragment implements CarChangedListener {
             map = fragment.getMap();
             setupCars();
 
-
+            Log.d(TAG, "I am in map");
 //          map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 //          map.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
@@ -78,6 +79,7 @@ public class LocationFragment extends Fragment implements CarChangedListener {
     }
 
     private void setupCars() {
+        Log.d(TAG, "I am in setup cars");
         for(int i = 0; i < dataHolder.getCars().size(); i++) {
             double latitude = dataHolder.getCars().get(i).getLastStatus().getLatitude();
             double longitude = dataHolder.getCars().get(i).getLastStatus().getLongtitude();
@@ -85,8 +87,7 @@ public class LocationFragment extends Fragment implements CarChangedListener {
             marker = new MarkerOptions().position(latLng);
 
             Car car = dataHolder.getCars().get(i);
-
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title(car.getMake() + " " + car.getModel()).snippet("Power voltage: " + dataHolder);
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title(car.getMake() + " " + car.getModel()).snippet("Power voltage: " + car.getLastStatus().getPowerVoltage());
             map.addMarker(marker);
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -134,7 +135,6 @@ public class LocationFragment extends Fragment implements CarChangedListener {
                 setupCars();
             }
         });
-
-
     }
+
 }

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.mobiliuz.demo.mobiliuzapp.R;
 import com.mobiliuz.demo.mobiliuzapp.data.DataHolder;
+import com.mobiliuz.demo.mobiliuzapp.fragments.LocationFragment;
 import com.mobiliuz.demo.mobiliuzapp.helpers.PrefsHelper;
 
 public class MainActivity extends ActionBarActivity{
@@ -75,6 +77,7 @@ public class MainActivity extends ActionBarActivity{
 
         DataHolder.getDataHolder(this).downloadCars();
 
+        Log.d(TAG, "i am in onCreate()");
     }
 
     private void setupActionBar() {
@@ -115,6 +118,8 @@ public class MainActivity extends ActionBarActivity{
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
+        DataHolder.getDataHolder(this).removeAllCars();
+
         finish();
     }
 
@@ -123,7 +128,4 @@ public class MainActivity extends ActionBarActivity{
         statisticsFragment.setVisibility(View.GONE);
         notificationsFragment.setVisibility(View.GONE);
     }
-
-
-
 }

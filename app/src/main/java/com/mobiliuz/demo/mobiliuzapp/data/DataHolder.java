@@ -5,6 +5,13 @@ import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.mobiliuz.demo.mobiliuzapp.R;
 import com.mobiliuz.demo.mobiliuzapp.helpers.PrefsHelper;
 import com.mobiliuz.demo.mobiliuzapp.helpers.RestClient;
 import com.mobiliuz.demo.mobiliuzapp.listeners.CarChangedListener;
@@ -43,6 +50,10 @@ public class DataHolder {
     public void addCar(Car car){
         cars.add(car);
         notifyCarAdded();
+    }
+
+    public void removeAllCars(){
+        cars.clear();
     }
 
     public void addCarListener(CarChangedListener listener) {
@@ -127,7 +138,6 @@ public class DataHolder {
 
                 }
 
-//                Log.d(TAG, "cars size " + DataHolder.getDataHolder().getCars().size());
                 Log.d(TAG, "json array length " + jarray.length());
                 Log.d(TAG, "json array " + jarray.toString());
 
@@ -167,6 +177,7 @@ public class DataHolder {
             carStatus.setPowerVoltage(object.getJSONObject("last_online_info").getDouble("power_voltage"));
             carStatus.setMoving(object.getBoolean("is_moving"));
             carStatus.setOnline(object.getBoolean("is_online"));
+            carStatus.setSpeed(object.getJSONObject("last_online_info").getDouble("speed"));
             double latitude = (double) object.getJSONObject("last_online_info").getJSONArray("where").get(0);
             double longitude = (double) object.getJSONObject("last_online_info").getJSONArray("where").get(1);
             carStatus.setLatitude(latitude);
@@ -183,7 +194,4 @@ public class DataHolder {
     public ArrayList<Car>getCars(){
         return cars;
     }
-
-
-
 }
