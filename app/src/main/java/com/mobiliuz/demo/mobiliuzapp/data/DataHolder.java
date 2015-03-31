@@ -128,14 +128,6 @@ public class DataHolder {
 
                     downloadCarStatus(singleCar);
 
-//                    singleCar.setPowerVoltage(object.getJSONObject("last_online_info").getDouble("power_voltage"));
-//                    double latitude = (double) object.getJSONObject("last_online_info").getJSONArray("where").get(0);
-//                    double longitude = (double) object.getJSONObject("last_online_info").getJSONArray("where").get(1);
-//                    singleCar.setLatitude(latitude);
-//                    singleCar.setLongitude(longitude);
-
-//                    DataHolder.getDataHolder().addCar(singleCar);
-
                 }
 
                 Log.d(TAG, "json array length " + jarray.length());
@@ -153,8 +145,6 @@ public class DataHolder {
     private void downloadCarStatus(Car singleCar) {
 
         String url = "http://demo.mobiliuz.com/api/v1/vehicle_status/" + "?vehicle_pk=" + singleCar.getBackendID() + "&username=" + getUsername() + "&api_token=" + getApiToken();
-//        String url = "http://demo.mobiliuz.com/api/v1/vehicle_status/" + "?username=" + getUsername() + "&api_token=" + getApiToken();
-
         Log.d(TAG, "url for car status is " + url);
 
         RestClient client = new RestClient(url);

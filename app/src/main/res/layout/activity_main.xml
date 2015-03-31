@@ -52,7 +52,8 @@
 
             <TextView
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1.0"
                 android:layout_height="wrap_content"
                 android:text="Car health &amp; battery level"
                 android:textSize="31px"
@@ -65,6 +66,7 @@
                 android:src="@drawable/car_health"
                 android:layout_gravity="center"
                 android:paddingLeft="30dp"
+                android:layout_marginRight="30dp"
                 />
 
         </LinearLayout>
@@ -84,7 +86,8 @@
 
             <TextView
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1.0"
                 android:layout_height="wrap_content"
                 android:text="Notifications &amp; phones"
                 android:textSize="31px"
@@ -96,7 +99,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/notifications"
-                android:paddingLeft="50dp"/>
+                android:paddingLeft="50dp"
+                android:layout_marginRight="30dp"
+                />
 
         </LinearLayout>
 

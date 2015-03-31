@@ -77,16 +77,25 @@ public class LocationFragment extends Fragment implements CarChangedListener {
         return view;
     }
 
+    private String statusHelper(boolean bool) {
+        if (bool) return "YES";
+        else return "NO";
+    }
+
     private void setupCars() {
         Log.d(TAG, "I am in setup cars");
-        for(int i = 0; i < dataHolder.getCars().size(); i++) {
+        for (int i = 0; i < dataHolder.getCars().size(); i++) {
             double latitude = dataHolder.getCars().get(i).getLastStatus().getLatitude();
             double longitude = dataHolder.getCars().get(i).getLastStatus().getLongtitude();
             LatLng latLng = new LatLng(latitude, longitude);
             marker = new MarkerOptions().position(latLng);
 
             Car car = dataHolder.getCars().get(i);
-            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title(car.getMake() + " " + car.getModel()).snippet("Power voltage: " + car.getLastStatus().getPowerVoltage());
+
+            String title = car.getMake() + " " + car.getModel();
+            String snippet = "Power voltage: " + car.getLastStatus().getPowerVoltage() + "\n Moving: " + statusHelper(car.getLastStatus().isMoving()) + "\n Online:" + statusHelper(car.getLastStatus().isOnline());
+
+            marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).title(title).snippet(snippet);
             map.addMarker(marker);
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -114,7 +123,6 @@ public class LocationFragment extends Fragment implements CarChangedListener {
 
     @Override
     public void onCarDownloaded() {
-
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
