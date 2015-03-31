@@ -114,11 +114,11 @@ public class MainActivity extends ActionBarActivity{
         prefsHelper.delete(PrefsHelper.PREF_PASSWORD);
         prefsHelper.delete(PrefsHelper.PREF_API_TOKEN);
 
+        DataHolder.getDataHolder(this).removeAllCars();
+
         Intent intent = new Intent(this, EntranceActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-
-        DataHolder.getDataHolder(this).removeAllCars();
 
         finish();
     }

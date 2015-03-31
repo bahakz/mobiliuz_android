@@ -2,6 +2,7 @@ package com.mobiliuz.demo.mobiliuzapp.fragments;
 
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -26,8 +27,8 @@ import com.mobiliuz.demo.mobiliuzapp.model.Car;
 
 public class LocationFragment extends Fragment implements CarChangedListener {
 
-    private static View view;
-    private static GoogleMap map;
+    private View view;
+    private GoogleMap map;
     private SupportMapFragment fragment;
     MarkerOptions marker;
     private DataHolder dataHolder;
@@ -36,7 +37,6 @@ public class LocationFragment extends Fragment implements CarChangedListener {
 
 
     public LocationFragment() {
-        // Required empty public constructor
     }
 
 
@@ -46,6 +46,8 @@ public class LocationFragment extends Fragment implements CarChangedListener {
 
         dataHolder = DataHolder.getDataHolder(getActivity());
         dataHolder.addCarListener(this);
+
+        Log.d(TAG, "is it before or then");
 
         // Inflate the layout for this fragment
         if (view != null) {
@@ -69,10 +71,7 @@ public class LocationFragment extends Fragment implements CarChangedListener {
         if (map == null) {
             map = fragment.getMap();
             setupCars();
-
             Log.d(TAG, "I am in map");
-//          map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-//          map.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
 
         return view;
@@ -106,24 +105,11 @@ public class LocationFragment extends Fragment implements CarChangedListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        FragmentManager fm = getChildFragmentManager();
-//        fragment = (SupportMapFragment) fm.findFragmentById(R.id.googleMap);
-//        if (fragment == null) {
-//            fragment = SupportMapFragment.newInstance();
-//            fm.beginTransaction().replace(R.id.googleMap, fragment).commit();
-//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        if (map == null) {
-//            map = fragment.getMap();
-//            LatLng latLng = new LatLng(43.236365, 76.910514);
-//            map.addMarker(new MarkerOptions().position(latLng));
-//            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-//            map.animateCamera(CameraUpdateFactory.zoomTo(15));
-//        }
     }
 
     @Override
@@ -136,5 +122,4 @@ public class LocationFragment extends Fragment implements CarChangedListener {
             }
         });
     }
-
 }
